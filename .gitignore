@@ -1,0 +1,20 @@
+# Python and notebook state
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local model-training artifacts
+flower_photos/
+flower_photos.tgz
+labels.txt
+model_fp16.tflite
+saved_model/
+export/
+artifacts/
+data/
+training_runs/
+
+# Operating-system files
+.DS_Store

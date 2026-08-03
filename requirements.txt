@@ -1,0 +1,6 @@
+# Reproducible environment for the 102-class Oxford Flowers training pipeline.
+tensorflow==2.21.0
+tensorflow-datasets==4.9.10
+importlib-resources>=6.5
+scipy>=1.14
+numpy>=1.26,<3

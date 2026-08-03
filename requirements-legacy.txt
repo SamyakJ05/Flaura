@@ -1,0 +1,6 @@
+# Historical environment for the original five-class Model Maker notebook.
+# Use Python 3.9; this is not required for the 102-class pipeline.
+tensorflow==2.9.3
+tflite-model-maker==0.4.2
+numpy==1.23.5
+matplotlib==3.6.3
