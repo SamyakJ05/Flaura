@@ -117,7 +117,14 @@ class _IdentifyPageState extends State<IdentifyPage> {
           const SizedBox(height: 20),
           Expanded(
             child: _image == null
-                ? const Center(child: Icon(Icons.local_florist, size: 120))
+                ? Center(
+                    child: Image.asset(
+                      'assets/branding/flaura-logo.png',
+                      width: 180,
+                      height: 180,
+                      fit: BoxFit.contain,
+                    ),
+                  )
                 : Image.file(File(_image!.path), fit: BoxFit.contain),
           ),
           if (_working)
