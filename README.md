@@ -1,5 +1,16 @@
 # Flaura
 
+<p align="center">
+  <img src="mobile_app/assets/branding/flaura-logo.png" alt="Flaura flower and camera logo" width="180">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.44+-02569B?logo=flutter&logoColor=white" alt="Flutter">
+  <img src="https://img.shields.io/badge/TensorFlow%20Lite-on--device%20ML-FF6F00?logo=tensorflow&logoColor=white" alt="TensorFlow Lite">
+  <img src="https://img.shields.io/badge/platform-Android%20%7C%20iOS-176B43" alt="Android and iOS">
+  <img src="https://img.shields.io/badge/classes-102-6A1B9A" alt="102 flower classes">
+</p>
+
 **Flaura** is a privacy-first flower identification app for Android and iOS.
 Choose or capture a photo, then classify it locally with a TensorFlow Lite
 model trained on Oxford Flowers 102. No image is sent to a server for
@@ -7,6 +18,9 @@ classification.
 
 > **Project status:** active course project and mobile ML baseline. The Android
 > app is ready for device testing; iOS packaging requires Xcode signing.
+
+**Topics:** `flutter` `android` `ios` `tensorflow-lite` `machine-learning`
+`computer-vision` `flower-classification` `on-device-ml`
 
 ## Features
 
