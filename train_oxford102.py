@@ -53,7 +53,22 @@ def build_model(class_count: int) -> tf.keras.Model:
 
 
 def export_tflite(model: tf.keras.Model, output_dir: Path) -> Path:
-    converter = tf.lite.TFLiteConverter.from_keras_model(model)
+    # Training augmentation must not be part of the deployed graph. Random
+    # image ops are unnecessary at inference time and are not available in
+    # every mobile TensorFlow Lite runtime (notably iOS).
+    backbone = model.get_layer("efficientnetb0")
+    pooling = model.get_layer("global_average_pooling2d")
+    dropout = model.get_layer("dropout")
+    classifier = model.get_layer("probabilities")
+    inference_input = tf.keras.Input(
+        shape=(IMAGE_SIZE, IMAGE_SIZE, 3), name="image"
+    )
+    features = backbone(inference_input, training=False)
+    features = pooling(features)
+    features = dropout(features, training=False)
+    inference_model = tf.keras.Model(inference_input, classifier(features))
+
+    converter = tf.lite.TFLiteConverter.from_keras_model(inference_model)
     converter.optimizations = [tf.lite.Optimize.DEFAULT]
     model_path = output_dir / "flaura_flowers102.tflite"
     model_path.write_bytes(converter.convert())
