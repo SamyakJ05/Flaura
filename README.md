@@ -129,9 +129,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
 
 ## Documentation
 
-- [Problem Statement.pdf](Problem%20Statement.pdf)
-- [Software Requirements Specification](SRS%20Document.pdf)
-- [Data Flow Diagram](DFD.pdf)
+- [Problem Statement](docs/Problem%20Statement.pdf)
+- [Software Requirements Specification](docs/SRS%20Document.pdf)
+- [Data Flow Diagram](docs/DFD.pdf)
 
 ## License
 
