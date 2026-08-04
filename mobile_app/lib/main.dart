@@ -57,14 +57,16 @@ class _IdentifyPageState extends State<IdentifyPage> {
     try {
       await _load();
       final prediction = await _classify(await selected.readAsBytes());
-      if (mounted)
+      if (mounted) {
         setState(
           () => _result =
               '${prediction.$1}  •  ${(prediction.$2 * 100).toStringAsFixed(1)}% confident',
         );
+      }
     } catch (error) {
-      if (mounted)
+      if (mounted) {
         setState(() => _result = 'Could not identify this photo: $error');
+      }
     } finally {
       if (mounted) setState(() => _working = false);
     }

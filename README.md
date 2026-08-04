@@ -1,34 +1,24 @@
 # Flaura
 
-Flaura is a cross-platform flower identification app for Android and iOS. It
-uses an on-device TensorFlow Lite model trained on the Oxford Flowers 102
-dataset, so a photo can be classified without sending it to a server.
+**Flaura** is a privacy-first flower identification app for Android and iOS.
+Choose or capture a photo, then classify it locally with a TensorFlow Lite
+model trained on Oxford Flowers 102. No image is sent to a server for
+classification.
 
-## What is included
+> **Project status:** active course project and mobile ML baseline. The Android
+> app is ready for device testing; iOS packaging requires Xcode signing.
 
-- `mobile_app/` - Flutter application with camera and photo-library input.
-- `mobile_app/assets/models/` - production TFLite model and its ordered
-  102-class label map.
-- `train_oxford102.py` - reproducible Oxford Flowers 102 training and export
-  pipeline.
-- `artifacts/oxford102/` - ignored local training outputs, including metrics
-  and checkpoints when you retrain.
-- `model.tflite`, `train_model.py`, and the notebook - preserved legacy
-  five-class prototype assets.
-- Course requirement and data-flow documents.
+## Features
 
-## Model
+- On-device recognition across 102 flower categories.
+- Camera capture and photo-library selection.
+- Confidence score for every prediction.
+- A bundled TFLite model, so classification works offline after installation.
+- One Flutter codebase for Android and iOS.
 
-The current 102-class model uses EfficientNetB0 transfer learning and reached
-**81.09% test accuracy** on Oxford Flowers 102. It expects an RGB image and
-resizes it to 224 × 224 pixels in the app before inference.
+## Quick start
 
-The bundled model has a matching `labels.json` file. Keep the two files
-together: prediction indexes are meaningful only with that label order.
-
-## Run the mobile app
-
-Install Flutter, then run:
+### Run the Flutter app
 
 ```bash
 cd mobile_app
@@ -36,12 +26,51 @@ flutter pub get
 flutter run
 ```
 
-On iOS, test the TensorFlow Lite flow on a physical device. The app requests
-camera and photo-library access only when the corresponding action is used.
+For iOS, use a physical device when validating TensorFlow Lite inference.
+
+### Validate changes
+
+```bash
+cd mobile_app
+flutter analyze
+flutter test
+```
+
+## Architecture
+
+```text
+Camera / photo library
+        |
+        v
+Flutter UI -> resize image to 224 x 224 RGB -> TFLite interpreter
+                                                   |
+                                                   v
+                                       labels.json -> flower + confidence
+```
+
+| Area | Location |
+| --- | --- |
+| Flutter application | `mobile_app/` |
+| Inference UI and preprocessing | `mobile_app/lib/main.dart` |
+| Production model | `mobile_app/assets/models/flaura_flowers102.tflite` |
+| Ordered model labels | `mobile_app/assets/models/labels.json` |
+| 102-class training pipeline | `train_oxford102.py` |
+| Legacy five-class prototype | `model.tflite`, `train_model.py`, and notebook |
+
+## Model
+
+The current model uses EfficientNetB0 transfer learning on the Oxford Flowers
+102 dataset. Its measured test accuracy is **81.09%**.
+
+This is a recognition aid, not a botanical authority. It is limited to the 102
+classes in the bundled label file, and an unfamiliar flower may still receive a
+high-confidence label. Keep `flaura_flowers102.tflite` and `labels.json`
+together: output indexes depend on that exact label order.
 
 ## Retrain the model
 
-Use Python 3.12 or later:
+Requirements: Python 3.12 or later, disk space for the dataset, and internet
+access on the first run.
 
 ```bash
 python -m venv .venv
@@ -50,21 +79,61 @@ pip install -r requirements.txt
 python train_oxford102.py --epochs 12
 ```
 
-The first run downloads and prepares Oxford Flowers 102. Exports are written
-to `artifacts/oxford102/`; copy the new `flaura_flowers102.tflite` and
-`labels.json` into `mobile_app/assets/models/` together before rebuilding the
-app.
+Training downloads Oxford Flowers 102 on first use and writes the model,
+labels, metrics, and checkpoint to `artifacts/oxford102/`. To ship a retrained
+model, copy both of these files into `mobile_app/assets/models/`:
 
-## Validation
+```text
+flaura_flowers102.tflite
+labels.json
+```
+
+The original five-class notebook uses a separate legacy environment described
+in `requirements-legacy.txt`.
+
+## Android releases
+
+Build packages from the Flutter project:
 
 ```bash
 cd mobile_app
-flutter analyze
-flutter test
+flutter build apk --release
+flutter build appbundle --release
 ```
 
-## Project history
+Use the `.aab` bundle for Google Play and the `.apk` for direct device testing.
+Before publishing, configure a private upload keystore and release signing; do
+not upload a debug-signed build to Play Console.
 
-Flaura began as a CSD326 software-engineering course project. The repository
-now includes its original documentation and a production-ready mobile ML
-baseline.
+## iOS releases
+
+Install full Xcode and CocoaPods, enroll in the Apple Developer Program, set
+the `com.flaura.flaura` bundle ID and signing team in Xcode, then run:
+
+```bash
+cd mobile_app
+flutter build ipa --release
+```
+
+Use the resulting IPA with TestFlight before submitting it through App Store
+Connect.
+
+## Contributing
+
+1. Create a focused branch from `main`.
+2. Keep model and label-file updates paired.
+3. Run `flutter analyze` and `flutter test` before opening a pull request.
+4. Describe any model, dataset, dependency, or permission changes clearly.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
+
+## Documentation
+
+- [Problem Statement.pdf](Problem%20Statement.pdf)
+- [Software Requirements Specification](SRS%20Document.pdf)
+- [Data Flow Diagram](DFD.pdf)
+
+## License
+
+No open-source license has been selected yet. Do not redistribute the code,
+model, or documentation without permission from the repository owner.
