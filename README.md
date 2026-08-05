@@ -6,13 +6,13 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Flutter-3.44+-02569B?logo=flutter&logoColor=white" alt="Flutter">
-  <img src="https://img.shields.io/badge/TensorFlow%20Lite-on--device%20ML-FF6F00?logo=tensorflow&logoColor=white" alt="TensorFlow Lite">
+  <img src="https://img.shields.io/badge/LiteRT-on--device%20ML-FF6F00?logo=tensorflow&logoColor=white" alt="LiteRT">
   <img src="https://img.shields.io/badge/platform-Android%20%7C%20iOS-176B43" alt="Android and iOS">
   <img src="https://img.shields.io/badge/classes-102-6A1B9A" alt="102 flower classes">
 </p>
 
 **Flaura** is a privacy-first flower identification app for Android and iOS.
-Choose or capture a photo, then classify it locally with a TensorFlow Lite
+Choose or capture a photo, then classify it locally with a LiteRT (TensorFlow Lite)
 model trained on Oxford Flowers 102. No image is sent to a server for
 classification.
 
@@ -27,7 +27,7 @@ classification.
 - On-device recognition across 102 flower categories.
 - Camera capture and photo-library selection.
 - Confidence score for every prediction.
-- A bundled TFLite model, so classification works offline after installation.
+- A bundled LiteRT/TFLite model, so classification works offline after installation.
 - One Flutter codebase for Android and iOS.
 
 ## Quick start
@@ -56,7 +56,7 @@ flutter test
 Camera / photo library
         |
         v
-Flutter UI -> resize image to 224 x 224 RGB -> TFLite interpreter
+Flutter UI -> resize image to 224 x 224 RGB -> LiteRT interpreter
                                                    |
                                                    v
                                        labels.json -> flower + confidence
