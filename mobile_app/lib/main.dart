@@ -47,14 +47,22 @@ class _IdentifyPageState extends State<IdentifyPage> {
   }
 
   Future<void> _pick(ImageSource source) async {
-    final selected = await _picker.pickImage(source: source, imageQuality: 90);
-    if (selected == null) return;
+    if (_working) return;
     setState(() {
-      _image = selected;
-      _result = null;
       _working = true;
     });
     try {
+      final selected = await _picker.pickImage(
+        source: source,
+        imageQuality: 90,
+      );
+      if (selected == null) return;
+      if (mounted) {
+        setState(() {
+          _image = selected;
+          _result = null;
+        });
+      }
       await _load();
       final prediction = await _classify(await selected.readAsBytes());
       if (mounted) {
