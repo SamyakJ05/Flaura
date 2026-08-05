@@ -68,7 +68,15 @@ def export_tflite(model: tf.keras.Model, output_dir: Path) -> Path:
     features = dropout(features, training=False)
     inference_model = tf.keras.Model(inference_input, classifier(features))
 
-    converter = tf.lite.TFLiteConverter.from_keras_model(inference_model)
+    # Export through the legacy converter so the operator versions remain
+    # compatible with the TensorFlow Lite 2.12 runtime shipped by iOS pods.
+    concrete = tf.function(inference_model).get_concrete_function(
+        tf.TensorSpec([1, IMAGE_SIZE, IMAGE_SIZE, 3], tf.float32, name="image")
+    )
+    converter = tf.lite.TFLiteConverter.from_concrete_functions(
+        [concrete], inference_model
+    )
+    converter.experimental_new_converter = False
     converter.optimizations = [tf.lite.Optimize.DEFAULT]
     model_path = output_dir / "flaura_flowers102.tflite"
     model_path.write_bytes(converter.convert())
