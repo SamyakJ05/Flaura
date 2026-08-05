@@ -1,0 +1,6 @@
+# Downloaded by the CocoaPods fallback at install time.
+ios/*.xcframework/
+ios/_*.zip
+
+# Native build output.
+android/.cxx/

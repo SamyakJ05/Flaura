@@ -129,10 +129,9 @@ packages:
   flutter_litert:
     dependency: "direct main"
     description:
-      name: flutter_litert
-      sha256: "4c158039af12cd09edb629409c6499264fd9e19f07409017914430497efa0d6a"
-      url: "https://pub.dev"
-    source: hosted
+      path: "packages/flutter_litert"
+      relative: true
+    source: path
     version: "3.7.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive

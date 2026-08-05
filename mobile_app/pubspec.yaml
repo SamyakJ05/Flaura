@@ -38,7 +38,11 @@ dependencies:
   image_picker: ^1.2.1
   # LiteRT is the current TensorFlow Lite runtime. It replaces the legacy
   # TensorFlowLiteSwift pod, which emits Swift 6 deprecation warnings.
-  flutter_litert: ^3.6.0
+  # Source-controlled mobile fork: Flaura uses the stable Interpreter API, so
+  # the unused LiteRT Next Metal accelerator is omitted on iOS. This prevents
+  # duplicate Objective-C classes in the release bundle.
+  flutter_litert:
+    path: packages/flutter_litert
 
 dev_dependencies:
   flutter_test:
