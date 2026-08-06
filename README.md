@@ -116,8 +116,10 @@ flutter build appbundle --release
 ```
 
 Use the `.aab` bundle for Google Play and the `.apk` for direct device testing.
-Before publishing, configure a private upload keystore and release signing; do
-not upload a debug-signed build to Play Console.
+Before the first release, copy `mobile_app/android/key.properties.example` to
+`mobile_app/android/key.properties` and add the private upload-keystore details.
+Both the properties file and `.jks` keystore are intentionally ignored by Git.
+Never upload a debug-signed build to Play Console.
 
 ## iOS releases
 
